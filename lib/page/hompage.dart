@@ -10,10 +10,25 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  TextEditingController noteaddd = TextEditingController();
+  // my list todo
   List mytodo = [
     ['anjib lkhedra'],
     ['nhwi somiya']
   ];
+  void onadd() {
+    setState(() {
+      mytodo.add([noteaddd.text]);
+      noteaddd.clear();
+    });
+  }
+
+  void deletetodo(int index) {
+    setState(() {
+      mytodo.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +41,13 @@ class _HomepageState extends State<Homepage> {
                 return AlertDialog(
                   title: const Text('Add My Todo'),
                   content: Textfaildadd(
-                    //controler: ,
+                    controler: noteaddd,
                     textInput: TextInputType.text,
                     hinttext: 'Add My Todo',
                   ),
-                  actions: [],
+                  actions: [
+                    TextButton(onPressed: onadd, child: const Text('Add'))
+                  ],
                 );
               });
         },
@@ -50,6 +67,7 @@ class _HomepageState extends State<Homepage> {
         child: ListView.builder(
           itemCount: mytodo.length,
           itemBuilder: (context, index) => Todolist(
+            deletbutton: () => deletetodo(index),
             text: mytodo[index][0],
           ),
         ),

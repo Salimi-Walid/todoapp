@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Textfaildadd extends StatelessWidget {
-  //final TextEditingController? controler;
+  final TextEditingController? controler;
   final TextInputType? textInput;
   final String hinttext;
   const Textfaildadd(
       {super.key,
-      //required this.controler
+      required this.controler,
       required this.hinttext,
       required this.textInput});
 
@@ -20,7 +20,7 @@ class Textfaildadd extends StatelessWidget {
           color: const Color.fromARGB(255, 252, 251, 249),
           borderRadius: BorderRadius.circular(10)),
       child: TextField(
-        //controller: controler,
+        controller: controler,
         keyboardType: textInput,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(

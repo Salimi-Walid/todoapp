@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class Todolist extends StatelessWidget {
   final String text;
-  const Todolist({super.key, required this.text});
+  final VoidCallback deletbutton;
+  const Todolist({super.key, required this.text, required this.deletbutton});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +26,7 @@ class Todolist extends StatelessWidget {
               width: 260,
             ),
             IconButton(
-                onPressed: () {},
+                onPressed: deletbutton,
                 icon: const Icon(
                   Icons.delete,
                   color: Color.fromARGB(255, 255, 0, 0),
