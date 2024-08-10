@@ -20,6 +20,7 @@ class Textfaildadd extends StatelessWidget {
           color: const Color.fromARGB(255, 252, 251, 249),
           borderRadius: BorderRadius.circular(10)),
       child: TextField(
+        maxLength: 35,
         controller: controler,
         keyboardType: textInput,
         textInputAction: TextInputAction.next,

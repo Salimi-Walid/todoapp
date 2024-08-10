@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todoapp/data/data.dart';
 import 'package:todoapp/models/textfaild.dart';
 import 'package:todoapp/models/todo.dart';
 
@@ -10,22 +12,43 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  // referance hivebox
+  final mybox = Hive.box('todobox');
+  Mydata db = Mydata();
+  @override
+  void initState() {
+    if (mybox.get('MYTODO') == null) {
+      db.createnitialdata();
+    } else {
+      db.loadData();
+    }
+    super.initState();
+  }
+
+  // content of textfiald
   TextEditingController noteaddd = TextEditingController();
-  // my list todo
-  List mytodo = [
-    ['anjib lkhedra'],
-    ['nhwi somiya']
-  ];
+  // fonction for add todo
   void onadd() {
+    if (noteaddd.text.isEmpty) {
+    } else {
+      setState(() {
+        db.mytodo.add([noteaddd.text, false]);
+        noteaddd.clear();
+      });
+    }
+  }
+
+  // fonction for remove todo
+  void deletetodo(int index) {
     setState(() {
-      mytodo.add([noteaddd.text]);
-      noteaddd.clear();
+      db.mytodo.removeAt(index);
     });
   }
 
-  void deletetodo(int index) {
+  //// fonction for change todo checkbox
+  void onchange(bool? value, int index) {
     setState(() {
-      mytodo.removeAt(index);
+      db.mytodo[index][1] = !db.mytodo[index][1];
     });
   }
 
@@ -57,7 +80,8 @@ class _HomepageState extends State<Homepage> {
       backgroundColor: const Color.fromARGB(255, 255, 235, 133),
       // My appbar
       appBar: AppBar(
-        title: const Text('My Todo'),
+        backgroundColor: const Color.fromARGB(255, 167, 117, 9),
+        title: const Center(child: Text('My Todo')),
       ),
       //My bady
       body: Padding(
@@ -65,10 +89,12 @@ class _HomepageState extends State<Homepage> {
         // My listview to show my todo
         // and code in file models/Todolist
         child: ListView.builder(
-          itemCount: mytodo.length,
+          itemCount: db.mytodo.length,
           itemBuilder: (context, index) => Todolist(
+            onchange: (value) => onchange(value, index),
+            valuechek: db.mytodo[index][1],
             deletbutton: () => deletetodo(index),
-            text: mytodo[index][0],
+            text: db.mytodo[index][0],
           ),
         ),
       ),
