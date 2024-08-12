@@ -33,6 +33,7 @@ class _HomepageState extends State<Homepage> {
     } else {
       setState(() {
         db.mytodo.add([noteaddd.text, false]);
+        db.updatedData();
         noteaddd.clear();
       });
     }
@@ -42,6 +43,7 @@ class _HomepageState extends State<Homepage> {
   void deletetodo(int index) {
     setState(() {
       db.mytodo.removeAt(index);
+      db.updatedData();
     });
   }
 
@@ -49,6 +51,7 @@ class _HomepageState extends State<Homepage> {
   void onchange(bool? value, int index) {
     setState(() {
       db.mytodo[index][1] = !db.mytodo[index][1];
+      db.updatedData();
     });
   }
 
@@ -63,10 +66,13 @@ class _HomepageState extends State<Homepage> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Text('Add My Todo'),
-                  content: Textfaildadd(
-                    controler: noteaddd,
-                    textInput: TextInputType.text,
-                    hinttext: 'Add My Todo',
+                  content: Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: Textfaildadd(
+                      controler: noteaddd,
+                      textInput: TextInputType.text,
+                      hinttext: 'Add My Todo',
+                    ),
                   ),
                   actions: [
                     TextButton(onPressed: onadd, child: const Text('Add'))

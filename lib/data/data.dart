@@ -10,6 +10,7 @@ class Mydata {
     mytodo = [
       ['Add My Todo', false]
     ];
+    updatedData();
   }
 
   //
